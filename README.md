@@ -11,3 +11,6 @@ https://github.com/longlongman/CasRel-pytorch-reimplement
 
 ## Modifications
 keras_bert.Tokenizer --> Transformer.BertTokenizer
+
+## Next step
+add some modifications for Chinese data
