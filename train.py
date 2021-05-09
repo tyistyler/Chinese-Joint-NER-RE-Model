@@ -44,3 +44,4 @@ model = {
 }
 
 fw.train(model[args.model_name])
+
