@@ -180,7 +180,7 @@ class Framework(object):
                         sub_tail = sub_tail[0]                                      # 最近匹配原则
                         subject = tokens[sub_head: sub_tail]
                         subjects.append((subject, sub_head, sub_tail))              # 记录当前句子所有的subject
-                if subject:
+                if subjects:
                     triple_list = []
                     # [subject_num, seq_len, bert_dim]
                     repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
