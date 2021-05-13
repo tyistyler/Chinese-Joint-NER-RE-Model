@@ -46,5 +46,5 @@ class NBTokenizer(BertTokenizer):       # New Bert Tokenizer
         return split_tokens
 
 def get_tokenizer(vocab_path):
-    return NBTokenizer(vocab_path, do_lower_case=False)
+    return NBTokenizer(vocab_path, do_lower_case=False, do_basic_tokenize=False)
 
