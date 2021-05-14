@@ -60,17 +60,17 @@ class NYTDataset(Dataset):
         '''
         text = ins_json_data['text']
         text = ' '.join(text.split()[:self.config.max_seq_len])
-        # tokens = self.tokenizer.tokenize(text)                        # keras_bert.tokenizer
-        tokens_ = self.tokenizer.tokenize(text)                         # BertTokenizer       二者的确有不同，本行没有[CLS]和[SEP]
-        tokens = [self.tokenizer.cls_token] + tokens_ + [self.tokenizer.sep_token]
+        tokens = self.tokenizer.tokenize(text)                        # keras_bert.tokenizer
+#         tokens_ = self.tokenizer.tokenize(text)                         # BertTokenizer       二者的确有不同，本行没有[CLS]和[SEP]
+#         tokens = [self.tokenizer.cls_token] + tokens_ + [self.tokenizer.sep_token]
         if len(tokens) > bert_max_seq_len:
             tokens = tokens[:bert_max_seq_len]
         text_len = len(tokens)
         if not self.is_test:
             s2ro_map = {}  # subject to relation and object
             for triple in ins_json_data['triple_list']:  #
-                # triple = (self.tokenizer.tokenize(triple[0])[1:-1], triple[1],self.tokenizer.tokenize(triple[2])[1:-1])  # keras_bert.tokenizer---[1:-1]的作用是去掉开头的[CLS]跟结尾的[SEP]
-                triple = (self.tokenizer.tokenize(triple[0]), triple[1], self.tokenizer.tokenize(triple[2]))
+                triple = (self.tokenizer.tokenize(triple[0])[1:-1], triple[1],self.tokenizer.tokenize(triple[2])[1:-1])  # keras_bert.tokenizer---[1:-1]的作用是去掉开头的[CLS]跟结尾的[SEP]
+#                 triple = (self.tokenizer.tokenize(triple[0]), triple[1], self.tokenizer.tokenize(triple[2]))
 
                 sub_head_idx = find_head_idx(tokens, triple[0])
                 obj_head_idx = find_head_idx(tokens, triple[2])
@@ -80,9 +80,9 @@ class NYTDataset(Dataset):
                         s2ro_map[sub] = []
                     s2ro_map[sub].append((obj_head_idx, obj_head_idx + len(triple[2]) - 1, self.rel2id[triple[1]]))
             if s2ro_map:
-                # token_ids, segment_ids = self.tokenizer.encode(first=text)  # keras_bert.tokenizer
-                token_ids = self.tokenizer.encode(text=text, add_special_tokens=True)
-                segment_ids = [0 for _ in range(len(token_ids))]
+                token_ids, segment_ids = self.tokenizer.encode(first=text)  # keras_bert.tokenizer
+#                 token_ids = self.tokenizer.encode(text=text, add_special_tokens=True)
+#                 segment_ids = [0 for _ in range(len(token_ids))]
                 masks = segment_ids
                 if len(token_ids) > text_len:
                     token_ids = token_ids[:text_len]
@@ -116,9 +116,9 @@ class NYTDataset(Dataset):
                 print('-----------------')
                 return None
         else:
-            # token_ids, segment_ids = self.tokenizer.encode(first=text)
-            token_ids = self.tokenizer.encode(text=text, add_special_tokens=True)
-            segment_ids = [0 for _ in range(len(token_ids))]
+            token_ids, segment_ids = self.tokenizer.encode(first=text)
+#             token_ids = self.tokenizer.encode(text=text, add_special_tokens=True)
+#             segment_ids = [0 for _ in range(len(token_ids))]
             masks = segment_ids
             if len(token_ids) > text_len:
                 token_ids = token_ids[:text_len]
