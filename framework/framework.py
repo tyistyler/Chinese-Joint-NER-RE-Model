@@ -190,7 +190,7 @@ class Framework(object):
 
                     for subject_idx, subject in enumerate(subjects):                # 遍历每一个subject
                         sub_head_mapping[subject_idx][0][subject[1]] = 1            # 记录每个subject的head和tail
-                        sub_head_mapping[subject_idx][0][subject[2]] = 1
+                        sub_tail_mapping[subject_idx][0][subject[2]] = 1
                     sub_tail_mapping = sub_tail_mapping.to(repeated_encoded_text)   # 数据没有发生变化，只是被转移到了GPU上
                     sub_head_mapping = sub_head_mapping.to(repeated_encoded_text)
 
